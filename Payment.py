@@ -1,5 +1,4 @@
-from datetime import datetime
-
+import datetime
 
 def annuity_payment(ammount, procents, month):
     """Формула расчета аннуитетного платежа"""
@@ -9,14 +8,13 @@ def annuity_payment(ammount, procents, month):
 
 def full_payment(ammount, procents, month, date):
     summ = ammount
+    mounth_num = 0
     while summ > 0:
         payment = annuity_payment(ammount, procents, month)
-        date = datetime.date(date)
+        #Здесь следует переправить переменную
+        date = datetime.date(*date).isoformat()
         print(f'{date}, размер платежа составит {round(payment, 2)}, остаток по кредиту составляет {round(summ, 2)}')
         summ -= payment
         mounth_num += 1
 
-
-
-
-#full_payment(748609, 7.91, 82, (2022, 2, 15))
+full_payment(748609, 7.91, 82, (2022, 2, 15))
