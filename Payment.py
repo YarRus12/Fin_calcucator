@@ -1,6 +1,4 @@
-from datetime import datetime, timedelta
-#from datetime import relativedelta
-#import dateutil
+from datetime import datetime, date
 
 def annuity_payment(ammount, procents, month):
     """Формула расчета аннуитетного платежа"""
@@ -9,32 +7,31 @@ def annuity_payment(ammount, procents, month):
     return pay_ammount
 
 def calendar(date_in):
-    year, month, day = date_in
-    return datetime(year, month, day)
+    """Функция перевода значения в дату"""
+    #year, month, day = date_in
+    return date(*date_in)
 
 
-def next_date(date):
-    date = str(date).split(' ')
-    year, month, day = map(int, str(date[0]).split('-'))
+def next_date(date_in):
+    year, month, day = map(int, str(date_in).split('-'))
     if month < 12:
         month += 1
     else:
         month = 1
         year += 1
-    return datetime(year, month, day)
-
+    return date(year, month, day)
 
 def full_payment(ammount, procents, months, end_of_period, day_mon_year):
     summ = ammount
-    date = calendar(day_mon_year)
+    now_date = calendar(day_mon_year)
     end_date = calendar(end_of_period)
     while summ > 0:
-        date = next_date(date)
+        date = next_date(now_date)
         payment = annuity_payment(ammount, procents, months)
         #Здесь следует переправить переменную year для избежания ValueError: month must be in 1..12
         print(f'{date}, размер платежа составит {round(payment, 2)}, остаток по кредиту составляет {round(summ, 2)}')
         summ -= payment
-
+        now_date = date
 
 
 #print('Today: ', datetime.today().strftime('%d/%m/%Y'))
