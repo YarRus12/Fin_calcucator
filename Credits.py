@@ -1,16 +1,11 @@
-from datetime import datetime, date
+from datetime import date
+import functional as func
 
 def annuity_payment(ammount, procents, month):
     """Формула расчета аннуитетного платежа"""
     procent = (procents/12)/100
     pay_ammount = ammount*(procent/(1-(1+procent)**(-(month-1))))
     return pay_ammount
-
-def calendar(date_in):
-    """Функция перевода значения в дату"""
-    #year, month, day = date_in
-    return date(*date_in)
-
 
 def next_date(date_in):
     """Функция прибавляет к дате 1 месяц"""
@@ -22,18 +17,20 @@ def next_date(date_in):
         year += 1
     return date(year, month, day)
 
-def full_payment(ammount, procents, months, end_of_period, day_mon_year):
+def full_payment(ammount, procents, end_of_period, day_mon_year):
     """Функция расчета размера платежа"""
     summ = ammount
-    now_date = calendar(day_mon_year)
-    end_date = calendar(end_of_period)
+    now_date = date(*day_mon_year)
+    months, days = func.month_count(end_of_period, day_mon_year)
+    print(days)
     while summ > 0:
-        date = next_date(now_date)
+        str_date = next_date(now_date)
         payment = annuity_payment(ammount, procents, months)
-        print(f'{date}, размер платежа составит {round(payment, 2)}, остаток по кредиту составляет {round(summ, 2)}')
+        print(f'На {str_date.day} {func.month_name(str_date.month)} {str_date.year} '
+              f'года размер ежемесячного платежа составит {round(payment, 2)}, '
+              f'остаток по кредиту составляет {round(summ, 2)}')
         summ -= payment
-        now_date = date
+        now_date = str_date
 
-#def payment():
-#print(calendar((2022, 2, 15)))
-full_payment(748609, 7.91, 81, (2027, 2, 15), (2022, 2, 15))
+
+full_payment(757786.25, 7.91, (2029, 1, 15), (2022, 4, 16))
