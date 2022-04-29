@@ -3,7 +3,7 @@ from datetime import datetime
 def month_count(end_of_period, day_mon_year):
     now_date = datetime(*day_mon_year)
     end_date = datetime(*end_of_period)
-    return ((end_date.year - now_date.year) * 12 + (end_date.month - now_date.month)), end_date - now_date
+    return ((end_date.year - now_date.year) * 12 + (end_date.month - now_date.month)), str(end_date - now_date).split(' ')[0]
 
 def month_name(number):
     month = ['января', 'февраля', 'марта', 'апреля',
